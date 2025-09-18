@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ -z "$HASHES_API_KEY" ]; then
+    echo "Error: HASHES_API_KEY environment variable is not set"
+    exit 1
+fi
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <hash>"
+    echo "Example: $0 '\$H\$94tMyeQZ/.RzkZQZV1aVPeA7wk/dqr0'"
+    exit 1
+fi
+
+HASH="$1"
+
+curl -s -X POST -H "Content-type: multipart/form-data" \
+    -F "key=$HASHES_API_KEY" \
+    -F "hashes[]=$HASH" \
+    https://hashes.com/en/api/search | jq
